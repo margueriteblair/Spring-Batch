@@ -1,6 +1,12 @@
 package com.springbatch.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Anime {
+
+    @Id
     private String anime_id;
     private String name;
     private String genre;
