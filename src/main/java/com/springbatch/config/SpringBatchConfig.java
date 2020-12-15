@@ -11,8 +11,10 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
 
 @Configuration
 public class SpringBatchConfig {
@@ -31,10 +33,20 @@ public class SpringBatchConfig {
                 .writer(itemWriter)
                 .build();
 
-        jobBuilderFactory.get("ETL-Load")
+        return jobBuilderFactory.get("ETL-Load")
                 .incrementer(new RunIdIncrementer())
                 .start(step)
                 .build();
 
+    }
+
+    @Bean
+    public FlatFileItemReader<Anime> itemReader() {
+        FlatFileItemReader<Anime> flatFileItemReader = new FlatFileItemReader<>();
+        flatFileItemReader.setResource(new FileSystemResource("/Users/margueriteblair/Desktop/anime.csv"));
+        flatFileItemReader.setName("CSV-Reader");
+        flatFileItemReader.setLinesToSkip(1);
+        flatFileItemReader.setLineMapper(lineMapper());
+        return flatFileItemReader;
     }
 }
