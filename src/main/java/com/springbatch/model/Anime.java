@@ -2,6 +2,7 @@ package com.springbatch.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Entity
 public class Anime {
@@ -83,4 +84,20 @@ public class Anime {
     public void setMembers(int members) {
         this.members = members;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("Anime{");
+        sb.append("id=").append(anime_id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", genre='").append(genre).append('\'');
+        sb.append(", type='").append(type).append('\'');
+        sb.append(", episodes='").append(episodes).append('\'');
+        sb.append(", ratings='").append(rating).append('\'');
+        sb.append(", members='").append(members).append('\'');
+        sb.append("}");
+        return sb.toString();
+    }
+
+
 }
