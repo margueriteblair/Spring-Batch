@@ -51,7 +51,7 @@ public class SpringBatchConfig {
         FlatFileItemReader<Anime> flatFileItemReader = new FlatFileItemReader<>();
         flatFileItemReader.setResource(resource);
         flatFileItemReader.setName("CSV-Reader");
-        flatFileItemReader.setLinesToSkip(1);
+        flatFileItemReader.setLinesToSkip(1); //first line is the header so we can skip it!
         flatFileItemReader.setLineMapper(lineMapper());
         return flatFileItemReader;
     }
