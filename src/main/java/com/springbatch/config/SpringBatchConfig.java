@@ -67,8 +67,8 @@ public class SpringBatchConfig extends DefaultBatchConfigurer {
         DefaultLineMapper<Anime> defaultLineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
 
-//        lineTokenizer.setDelimiter(",");
-        lineTokenizer.setStrict(false);
+        lineTokenizer.setDelimiter(",");
+        lineTokenizer.setStrict(true);
         lineTokenizer.setNames("anime_id", "name", "genre", "type", "episodes", "ratings", "members");
 
         BeanWrapperFieldSetMapper<Anime> fieldSetMapper = new BeanWrapperFieldSetMapper<>();

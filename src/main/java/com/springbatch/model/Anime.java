@@ -2,9 +2,11 @@ package com.springbatch.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
+@Table(name = "animes")
 public class Anime {
 
     @Id
@@ -12,13 +14,13 @@ public class Anime {
     private String name;
     private String genre;
     private String type;
-    private String episodes;
+    private int episodes;
     private double rating;
     private int members;
 
     public Anime() {}
 
-    public Anime(String anime_id, String name, String genre, String type, String episodes, double rating, int members) {
+    public Anime(String anime_id, String name, String genre, String type, int episodes, double rating, int members) {
         this.anime_id = anime_id;
         this.name = name;
         this.genre = genre;
@@ -61,11 +63,11 @@ public class Anime {
         this.type = type;
     }
 
-    public String getEpisodes() {
+    public int getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(String episodes) {
+    public void setEpisodes(int episodes) {
         this.episodes = episodes;
     }
 
