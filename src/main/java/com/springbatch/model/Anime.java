@@ -12,13 +12,13 @@ public class Anime {
     private String name;
     private String genre;
     private String type;
-    private int episodes;
+    private String episodes;
     private double rating;
     private int members;
 
     public Anime() {}
 
-    public Anime(String anime_id, String name, String genre, String type, int episodes, double rating, int members) {
+    public Anime(String anime_id, String name, String genre, String type, String episodes, double rating, int members) {
         this.anime_id = anime_id;
         this.name = name;
         this.genre = genre;
@@ -61,11 +61,11 @@ public class Anime {
         this.type = type;
     }
 
-    public int getEpisodes() {
+    public String getEpisodes() {
         return episodes;
     }
 
-    public void setEpisodes(int episodes) {
+    public void setEpisodes(String episodes) {
         this.episodes = episodes;
     }
 

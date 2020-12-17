@@ -31,7 +31,9 @@ public class LoadController {
         JobParameters parameters = new JobParameters(maps);
         JobExecution jobExecution = jobLauncher.run(job, parameters);
 
-        System.out.println("Job Execution: " + jobExecution.getStatus());
+        System.out.println("Job Execution: " + jobExecution.getStatus() + jobExecution.getAllFailureExceptions() + "\n"
+        + jobExecution.getFailureExceptions() + jobExecution.getExitStatus()
+        );
 
         System.out.println("The batch is running!");
         while (jobExecution.isRunning()) {

@@ -4,11 +4,14 @@ package com.springbatch.config;
 import com.springbatch.model.Anime;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -20,11 +23,12 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 @Configuration
 @EnableBatchProcessing
-public class SpringBatchConfig {
+public class SpringBatchConfig extends DefaultBatchConfigurer {
 
     @Bean
     public Job job(JobBuilderFactory jobBuilderFactory,
@@ -48,9 +52,10 @@ public class SpringBatchConfig {
     }
 
     @Bean
-    public FlatFileItemReader<Anime> itemReader(@Value("${file.path}") Resource resource) {
-        FlatFileItemReader<Anime> flatFileItemReader = new FlatFileItemReader<>();
-        flatFileItemReader.setResource(resource);
+    public FlatFileItemReader<Anime> itemReader() {
+        //@Value("${file.path}") Resource resource
+        FlatFileItemReader<Anime> flatFileItemReader = new FlatFileItemReader<Anime>();
+        flatFileItemReader.setResource(new FileSystemResource("/Users/margueriteblair/Desktop/anime.csv"));
         flatFileItemReader.setName("CSV-Reader");
         flatFileItemReader.setLinesToSkip(1); //first line is the header so we can skip it!
         flatFileItemReader.setLineMapper(lineMapper());
@@ -62,7 +67,7 @@ public class SpringBatchConfig {
         DefaultLineMapper<Anime> defaultLineMapper = new DefaultLineMapper<>();
         DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
 
-        lineTokenizer.setDelimiter(",");
+//        lineTokenizer.setDelimiter(",");
         lineTokenizer.setStrict(false);
         lineTokenizer.setNames("anime_id", "name", "genre", "type", "episodes", "ratings", "members");
 
@@ -71,5 +76,12 @@ public class SpringBatchConfig {
         defaultLineMapper.setLineTokenizer(lineTokenizer);
         defaultLineMapper.setFieldSetMapper(fieldSetMapper);
         return defaultLineMapper;
+    }
+
+    @Override
+    protected JobRepository createJobRepository() throws Exception {
+        MapJobRepositoryFactoryBean factoryBean = new MapJobRepositoryFactoryBean();
+        factoryBean.afterPropertiesSet();
+        return factoryBean.getObject();
     }
 }
