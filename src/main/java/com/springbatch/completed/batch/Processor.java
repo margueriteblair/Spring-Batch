@@ -1,6 +1,6 @@
-package com.springbatch.batch;
+package com.springbatch.completed.batch;
 
-import com.springbatch.model.Anime;
+import com.springbatch.completed.model.Anime;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 

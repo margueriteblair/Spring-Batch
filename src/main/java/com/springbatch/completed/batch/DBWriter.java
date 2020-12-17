@@ -1,7 +1,7 @@
-package com.springbatch.batch;
+package com.springbatch.completed.batch;
 
-import com.springbatch.model.Anime;
-import com.springbatch.repository.AnimeRepository;
+import com.springbatch.completed.model.Anime;
+import com.springbatch.completed.repository.AnimeRepository;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

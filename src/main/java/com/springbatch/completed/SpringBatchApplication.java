@@ -1,4 +1,4 @@
-package com.springbatch;
+package com.springbatch.completed;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
