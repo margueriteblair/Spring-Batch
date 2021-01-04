@@ -1,6 +1,8 @@
 package com.springbatch.completed.config;
 
 
+import com.springbatch.completed.batch.DBWriter;
+import com.springbatch.completed.batch.Processor;
 import com.springbatch.completed.model.Anime;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -19,6 +21,7 @@ import org.springframework.batch.item.file.LineMapper;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.FileSystemResource;
@@ -27,18 +30,22 @@ import org.springframework.core.io.FileSystemResource;
 @EnableBatchProcessing
 public class SpringBatchConfig extends DefaultBatchConfigurer {
 
+    @Autowired
+    DBWriter dbWriter;
+
+    @Autowired
+    Processor processor;
+
     @Bean
     public Job job(JobBuilderFactory jobBuilderFactory,
                    StepBuilderFactory stepBuilderFactory,
-                   ItemReader<Anime> itemReader,
-                   ItemProcessor<Anime, Anime> itemProcessor,
-                   ItemWriter<Anime> itemWriter) {
+                   ItemReader<Anime> itemReader) {
 
         Step step = stepBuilderFactory.get("ETL-file-load")
                 .<Anime, Anime>chunk(100)
                 .reader(itemReader)
-                .processor(itemProcessor)
-                .writer(itemWriter)
+                .processor(processor)
+                .writer(dbWriter)
                 .build();
 
         return jobBuilderFactory.get("ETL-Load")
